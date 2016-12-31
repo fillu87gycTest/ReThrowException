@@ -1,15 +1,44 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace ConsoleApplication34
+class Rethrow
 {
-	class Program
+	public static void GenException()
 	{
-		static void Main(string[] args)
+		var numb = new int[8];
+		int[] denom = { 2, 0, 4, 4, 0, 8 };
+		for (int i = 2; i < 10; i++)
 		{
+			numb[i - 2] = (int)Math.Pow(2.0, i);
+		}
+		for (int i = 0; i < numb.Length; i++)
+		{
+			try
+			{
+				Console.WriteLine(numb[i] + " / " + denom[i] + " is\t" + numb[i] / denom[i]);
+			}
+			catch (DivideByZeroException)
+			{
+				Console.WriteLine("dev by zero");
+			}
+			catch (IndexOutOfRangeException)
+			{
+				Console.WriteLine("out index");
+				throw;	//例外を再度投げる
+			}
+		}
+	}
+}
+class Program
+{
+	static void Main()
+	{
+		try
+		{
+			Rethrow.GenException();
+		}
+		catch (IndexOutOfRangeException)
+		{
+			Console.WriteLine("Exception");
 		}
 	}
 }
